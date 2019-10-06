@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+//navigator file
+import MealsNavigator from "./navigation/MealsNavigator";
 
 export default function App() {
   return (
-    <View>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
+    <MealsNavigator/>
   );
 }
 

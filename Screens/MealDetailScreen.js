@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 });
 const MealDetailScreen = () => {
     return (
-        <View>
+        <View style={styles.screen}>
             <Text>The meal detail screen</Text>
         </View>
     );

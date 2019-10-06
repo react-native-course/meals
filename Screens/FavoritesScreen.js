@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 
 const FavoritesScreen = () => {
     return (
-        <View>
+        <View style={styles.screen}>
             <Text>The favorites screen</Text>
         </View>
     );

@@ -24,7 +24,7 @@ const FiltersScreen = () => {
     }
 
     return (
-        <View>
+        <View style={styles.screen}>
             <Text>The filters screen</Text>
         </View>
     );

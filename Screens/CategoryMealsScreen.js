@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Button} from 'react-native';
 
 const styles = StyleSheet.create({
     screen: {
@@ -9,10 +9,14 @@ const styles = StyleSheet.create({
     }
 });
 
-const CategoryMealsScreen = () => {
+const CategoryMealsScreen = ({navigation: {navigate}}) => {
+    const goToMealDetail = () => {
+        navigate('MealDetail')
+    }
     return (
-        <View>
+        <View style={styles.screen}>
             <Text>The category meal screen</Text>
+            <Button title="Go to details!" onPress={goToMealDetail} />
         </View>
     );
 };
