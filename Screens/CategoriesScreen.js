@@ -9,8 +9,9 @@ const styles = StyleSheet.create({
     }
 });
 
-const CategoriesScreen = ({navigation: {navigate}}) => {
+const CategoriesScreen = ({navigation: {replace, navigate}}) => {
     const goToMeal = () => {
+        // replace('CategoryMeals');
         navigate({routeName: 'CategoryMeals'});
     };
 

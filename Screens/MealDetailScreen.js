@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, View, Button} from "react-native";
 
 const styles = StyleSheet.create({
     screen: {
@@ -8,10 +8,15 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     }
 });
-const MealDetailScreen = () => {
+const MealDetailScreen = ({navigation: {popToTop}}) => {
+    const goBackToCategories= () => {
+        popToTop();
+    };
+
     return (
         <View style={styles.screen}>
             <Text>The meal detail screen</Text>
+            <Button title="Go back to categories" onPress={goBackToCategories}/>
         </View>
     );
 };
