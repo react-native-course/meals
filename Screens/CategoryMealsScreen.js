@@ -1,34 +1,43 @@
 import React from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
-import {CATEGORIES} from "../data/dummy-data";
+import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {CATEGORIES, MEALS} from "../data/dummy-data";
+import MealItem from "../Components/MealItem";
 
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        padding: 15
     }
 });
 
-const CategoryMealsScreen = ({navigation: {navigate, pop, goBack, getParam}}) => {
+const CategoryMealsScreen = ({navigation: {navigate, getParam}}) => {
     const catId = getParam('categoryId'),
-        selectedCategory = CATEGORIES.find(cat => cat.id === catId);
+        displayMeals = MEALS.filter(meal => meal.categoryIds.indexOf(catId) >= 0);
 
-    const goToMealDetail = () => {
-        navigate('MealDetail')
+    const goToMealDetailScreen = (id) => {
+        navigate('MealDetail', {mealId: id})
     };
 
-    const goBackToPreviousScreen = () => {
-        pop();
-        // goBack();
-    };
+    const renderMealItem = (itemData) => (
+        <MealItem
+            title={itemData.item.title}
+            image={itemData.item.imageUrl}
+            duration={itemData.item.duration}
+            complexity={itemData.item.complexity}
+            affordability={itemData.item.affordability}
+            onSelectMeal={() => goToMealDetailScreen(itemData.item.id)}/>
+    );
 
     return (
         <View style={styles.screen}>
-            <Text>The category meal screen</Text>
-            <Text>{selectedCategory.title}</Text>
-            <Button title="Go to details!" onPress={goToMealDetail}/>
-            <Button title="Go back" onPress={goBackToPreviousScreen}/>
+            <FlatList
+                data={displayMeals}
+                keyExtractor={(item, index) => item.id}
+                renderItem={renderMealItem}
+                style={{width: '100%'}}
+            />
         </View>
     );
 };
