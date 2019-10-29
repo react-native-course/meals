@@ -2,6 +2,8 @@ import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {CATEGORIES} from "../data/dummy-data";
 import CategoryGridTile from "../Components/CategoryGridTile";
+import {HeaderButtons, Item} from "react-navigation-header-buttons";
+import HeaderButton from '../Components/HeaderButton';
 
 const styles = StyleSheet.create({
     screen: {
@@ -31,6 +33,21 @@ const CategoriesScreen = ({navigation: {navigate}}) => {
                   keyExtractor={(item, index) => item.id}
                   numColumns={2}/>
     )
+};
+
+CategoriesScreen.navigationOptions = ({navigation: {toggleDrawer}}) => {
+    return {
+        headerTitle: 'Meal Categories',
+        headerLeft: (
+            <HeaderButtons HeaderButtonComponent={HeaderButton} title="categories-screen">
+                <Item
+                    title="Menu"
+                    label="Menu"
+                    iconName="ios-menu"
+                    onPress={() => toggleDrawer()}/>
+            </HeaderButtons>
+        )
+    }
 };
 
 export default CategoriesScreen;

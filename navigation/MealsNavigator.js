@@ -9,6 +9,8 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 //material tab navigator
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
+//drawer navigator
+import {createDrawerNavigator} from 'react-navigation-drawer';
 //components
 import CategoriesScreen from "../Screens/CategoriesScreen";
 import CategoryMealsScreen from "../Screens/CategoryMealsScreen";
@@ -16,6 +18,7 @@ import MealDetailScreen from "../Screens/MealDetailScreen";
 import FavoritesScreen from "../Screens/FavoritesScreen";
 //constants
 import Colors from "../constants/Colors";
+import FiltersScreen from "../Screens/FiltersScreen";
 
 const defaultStackNavOptions = {
     headerStyle: {
@@ -25,12 +28,7 @@ const defaultStackNavOptions = {
 };
 
 const MealsNavigator = createStackNavigator({
-        Categories: {
-            screen: CategoriesScreen,
-            navigationOptions: {
-                title: 'Meal Categories'
-            }
-        },
+        Categories: CategoriesScreen,
         CategoryMeals: {
             screen: CategoryMealsScreen,
         },
@@ -41,17 +39,13 @@ const MealsNavigator = createStackNavigator({
 );
 
 const FavNavigator = createStackNavigator({
-        Favorites: {
-            screen: FavoritesScreen,
-            navigationOptions: {
-                title: 'Your Favorites'
-            }
-        },
+        Favorites: FavoritesScreen,
         MealDetail: MealDetailScreen,
     },
     {
         defaultNavigationOptions: defaultStackNavOptions
-    });
+    }
+);
 
 const tabScreenConfig = {
     Meals: {
@@ -85,4 +79,17 @@ const MealsFavTabNavigator = Platform.OS === 'android'
             }
         });
 
-export default createAppContainer(MealsFavTabNavigator);
+const FiltersNavigator = createStackNavigator({
+        Filters: FiltersScreen
+    },
+    {
+        defaultNavigationOptions: defaultStackNavOptions
+    }
+);
+
+const MainNavigator = createDrawerNavigator({
+    MealsFavs: MealsFavTabNavigator,
+    Filters: FiltersNavigator,
+});
+
+export default createAppContainer(MainNavigator);
