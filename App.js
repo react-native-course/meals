@@ -1,10 +1,19 @@
 import React, {useState} from 'react';
+//redux
+import {Provider} from 'react-redux';
+import configureStore from "./store/configureStore";
+//react native
 import {StyleSheet} from 'react-native';
-import {useScreens} from 'react-native-screens';
-import {loadAsync} from 'expo-font';
+//expo
 import {AppLoading} from 'expo';
+//expo font
+import {loadAsync} from 'expo-font';
+//components
+import {useScreens} from 'react-native-screens';
 //navigator file
 import MealsNavigator from "./navigation/MealsNavigator";
+
+const store = configureStore();
 
 const fetchFonts = () => {
     return loadAsync({
@@ -29,7 +38,9 @@ export default function App() {
 
 
     return (
-        <MealsNavigator/>
+        <Provider store={store}>
+            <MealsNavigator/>
+        </Provider>
     );
 }
 
