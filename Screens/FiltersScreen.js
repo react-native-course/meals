@@ -1,8 +1,12 @@
 import React, {useState, useEffect, useCallback} from 'react';
+//react native
 import {StyleSheet, Text, View, Switch, Platform} from "react-native";
+//react navigation
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
-import HeaderButton from '../Components/HeaderButton';
+//constants
 import Colors from "../constants/Colors";
+//components
+import HeaderButton from '../Components/HeaderButton';
 
 const styles = StyleSheet.create({
     screen: {

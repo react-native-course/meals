@@ -1,5 +1,7 @@
 import React from 'react';
+//react native
 import {View, StyleSheet, FlatList} from 'react-native';
+//components
 import MealItem from "./MealItem";
 
 const styles = StyleSheet.create({
@@ -12,8 +14,8 @@ const styles = StyleSheet.create({
 });
 
 const MealList = ({navigate, listData}) => {
-    const goToMealDetailScreen = (id) => {
-        navigate('MealDetail', {mealId: id})
+    const goToMealDetailScreen = (id, title) => {
+        navigate('MealDetail', {mealId: id, mealTitle: title})
     };
 
     const renderMealItem = (itemData) => (
@@ -23,7 +25,7 @@ const MealList = ({navigate, listData}) => {
             duration={itemData.item.duration}
             complexity={itemData.item.complexity}
             affordability={itemData.item.affordability}
-            onSelectMeal={() => goToMealDetailScreen(itemData.item.id)}/>
+            onSelectMeal={() => goToMealDetailScreen(itemData.item.id, itemData.item.title)}/>
     );
 
     return (

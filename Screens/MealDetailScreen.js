@@ -1,7 +1,12 @@
 import React from 'react';
+import {connect} from "react-redux";
+//react native
 import {StyleSheet, Text, View, ScrollView, Image} from "react-native";
+//react navigation
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
-import {MEALS} from "../data/dummy-data";
+//selectors
+import {getMeals} from "../store/selectors/mealsSelectors";
+//components
 import HeaderButton from '../Components/HeaderButton';
 import DefaultText from "../Components/DefaultText";
 
@@ -20,7 +25,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
         textAlign: 'center'
     },
-    listItem:  {
+    listItem: {
         marginVertical: 10,
         marginHorizontal: 20,
         borderColor: "#ccc",
@@ -30,14 +35,14 @@ const styles = StyleSheet.create({
 });
 
 const ListItem = ({children}) => (
-  <View style={styles.listItem}>
-      <DefaultText>{children}</DefaultText>
-  </View>
+    <View style={styles.listItem}>
+        <DefaultText>{children}</DefaultText>
+    </View>
 );
 
-const MealDetailScreen = ({navigation: {getParam}}) => {
+const MealDetailScreen = ({navigation: {getParam}, meals}) => {
     const mealId = getParam('mealId'),
-        selectedMeal = MEALS.find(meal => meal.id === mealId);
+        selectedMeal = meals.find(meal => meal.id === mealId);
 
     return (
         <ScrollView>
@@ -60,10 +65,9 @@ const MealDetailScreen = ({navigation: {getParam}}) => {
 };
 
 MealDetailScreen.navigationOptions = ({navigation: {getParam}}) => {
-    const mealId = getParam('mealId'),
-        selectedMeal = MEALS.find(meal => meal.id === mealId);
+    const title = getParam('mealTitle');
     return {
-        headerTitle: selectedMeal.title,
+        headerTitle: title,
         headerRight: (
             <HeaderButtons HeaderButtonComponent={HeaderButton} title="meal-detail-screen">
                 <Item
@@ -79,4 +83,8 @@ MealDetailScreen.navigationOptions = ({navigation: {getParam}}) => {
     }
 };
 
-export default MealDetailScreen;
+const mapStateToProps = (state) => ({
+    meals: getMeals({state}),
+});
+
+export default connect(mapStateToProps)(MealDetailScreen);

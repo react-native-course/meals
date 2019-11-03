@@ -1,5 +1,7 @@
 import React from 'react';
+//react native
 import {View, Text, StyleSheet, TouchableOpacity, ImageBackground} from 'react-native';
+//components
 import DefaultText from "./DefaultText";
 
 const styles = StyleSheet.create({

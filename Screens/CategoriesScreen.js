@@ -1,9 +1,13 @@
 import React from 'react';
+//react native
 import {FlatList, StyleSheet} from 'react-native';
-import {CATEGORIES} from "../data/dummy-data";
-import CategoryGridTile from "../Components/CategoryGridTile";
+//react navigation
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
+//components
+import CategoryGridTile from "../Components/CategoryGridTile";
 import HeaderButton from '../Components/HeaderButton';
+//dummy
+import {CATEGORIES} from "../data/dummy-data";
 
 const styles = StyleSheet.create({
     screen: {

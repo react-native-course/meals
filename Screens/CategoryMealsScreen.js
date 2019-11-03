@@ -1,10 +1,15 @@
 import React from 'react';
-import {CATEGORIES, MEALS} from "../data/dummy-data";
+import {connect} from "react-redux";
+//selectors
+import {getFilteredMeals} from "../store/selectors/mealsSelectors";
+//components
 import MealList from "../Components/MealList";
+//dummy
+import {CATEGORIES} from "../data/dummy-data";
 
-const CategoryMealsScreen = ({navigation: {navigate, getParam}}) => {
+const CategoryMealsScreen = ({navigation: {navigate, getParam}, filteredMeals}) => {
     const catId = getParam('categoryId'),
-        displayMeals = MEALS.filter(meal => meal.categoryIds.indexOf(catId) >= 0);
+        displayMeals = filteredMeals.filter(meal => meal.categoryIds.indexOf(catId) >= 0);
 
     return (
         <MealList listData={displayMeals} navigate={navigate} />
@@ -20,4 +25,8 @@ CategoryMealsScreen.navigationOptions = ({navigation: {getParam}}) => {
     };
 };
 
-export default CategoryMealsScreen;
+const mapStateToProps = (state) => ({
+    filteredMeals: getFilteredMeals({state}),
+});
+
+export default connect(mapStateToProps)(CategoryMealsScreen);

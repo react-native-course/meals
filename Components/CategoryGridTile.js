@@ -1,4 +1,5 @@
 import React from 'react';
+//react native
 import {
     Text,
     TouchableOpacity,

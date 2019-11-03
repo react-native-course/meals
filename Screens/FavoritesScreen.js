@@ -1,16 +1,16 @@
 import React from 'react';
-import MealList from "../Components/MealList";
-import {MEALS} from "../data/dummy-data";
+import {connect} from "react-redux";
+//react navigation
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
+//selectors
+import {getFavoriteMeals} from "../store/selectors/mealsSelectors";
+//components
 import HeaderButton from '../Components/HeaderButton';
+import MealList from "../Components/MealList";
 
-const FavoritesScreen = ({navigation: {navigate, getParam}}) => {
-    const favMeals = MEALS.filter(meal => meal.id === 'm1' || meal.id === 'm2');
-
-    return (
-       <MealList listData={favMeals} navigate={navigate} />
-    );
-};
+const FavoritesScreen = ({navigation: {navigate}, favoriteMeals}) => (
+    <MealList listData={favoriteMeals} navigate={navigate}/>
+);
 
 FavoritesScreen.navigationOptions = ({navigation: {toggleDrawer}}) => {
     return {
@@ -27,4 +27,8 @@ FavoritesScreen.navigationOptions = ({navigation: {toggleDrawer}}) => {
     }
 };
 
-export default FavoritesScreen;
+const mapStateToProps = (state) => ({
+    favoriteMeals: getFavoriteMeals({state}),
+});
+
+export default connect(mapStateToProps)(FavoritesScreen);
