@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {StyleSheet, Text, View, Switch, Platform} from "react-native";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import HeaderButton from '../Components/HeaderButton';
@@ -35,11 +35,25 @@ const FilterSwitch = ({label, value, onChange}) => (
     </View>
 );
 
-const FiltersScreen = () => {
+const FiltersScreen = ({navigation: {setParams}}) => {
     const [isGlutenFree, setIsGlutenFree] = useState(false),
-    [isLactoseFree, setIsLactoseFree] = useState(false),
-    [isVegan, setIsVeganFree] = useState(false),
-    [isVegetarian, setIsVegetarianFree] = useState(false);
+        [isLactoseFree, setIsLactoseFree] = useState(false),
+        [isVegan, setIsVeganFree] = useState(false),
+        [isVegetarian, setIsVegetarianFree] = useState(false);
+
+    const saveFilters = useCallback(() => {
+        const appliedFilters = {
+            glutenFree: isGlutenFree,
+            lactoseFree: isLactoseFree,
+            vegan: isVegan,
+            vegetarian: isVegetarian,
+        };
+        console.log('appliedFilters ', appliedFilters);
+    }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian]);
+
+    useEffect(() => {
+        setParams({saveFilters: saveFilters});
+    }, [saveFilters]);
 
     const isGlutenFreeHandler = (newValue) => {
         setIsGlutenFree(newValue)
@@ -81,18 +95,27 @@ const FiltersScreen = () => {
     );
 };
 
-FiltersScreen.navigationOptions = ({navigation: {toggleDrawer}}) => {
+FiltersScreen.navigationOptions = ({navigation: {toggleDrawer, getParam}}) => {
     return {
         headerTitle: 'Filter Meals',
         headerLeft: (
-            <HeaderButtons HeaderButtonComponent={HeaderButton} title="categories-screen">
+            <HeaderButtons HeaderButtonComponent={HeaderButton} title="filter-screen-left">
                 <Item
                     title="Menu"
                     label="Menu"
                     iconName="ios-menu"
                     onPress={() => toggleDrawer()}/>
             </HeaderButtons>
-        )
+        ),
+        headerRight: (
+            <HeaderButtons HeaderButtonComponent={HeaderButton} title="filter-screen-right">
+                <Item
+                    title="Save"
+                    label="Save"
+                    iconName="ios-save"
+                    onPress={getParam('saveFilters')}/>
+            </HeaderButtons>
+        ),
     }
 };
 
