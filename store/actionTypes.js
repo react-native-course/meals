@@ -1,0 +1,1 @@
+export const TOGGLE_FAVORITE = '[MEALS] TOGGLE_FAVORITE';
