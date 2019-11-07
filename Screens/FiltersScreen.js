@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
+import {connect} from "react-redux";
 //react native
 import {StyleSheet, Text, View, Switch, Platform} from "react-native";
 //react navigation
@@ -7,6 +8,7 @@ import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import Colors from "../constants/Colors";
 //components
 import HeaderButton from '../Components/HeaderButton';
+import {setFilters} from "../store/actions/mealsActions";
 
 const styles = StyleSheet.create({
     screen: {
@@ -39,7 +41,7 @@ const FilterSwitch = ({label, value, onChange}) => (
     </View>
 );
 
-const FiltersScreen = ({navigation: {setParams}}) => {
+const FiltersScreen = ({navigation: {setParams}, dispatch}) => {
     const [isGlutenFree, setIsGlutenFree] = useState(false),
         [isLactoseFree, setIsLactoseFree] = useState(false),
         [isVegan, setIsVeganFree] = useState(false),
@@ -52,8 +54,8 @@ const FiltersScreen = ({navigation: {setParams}}) => {
             vegan: isVegan,
             vegetarian: isVegetarian,
         };
-        console.log('appliedFilters ', appliedFilters);
-    }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian]);
+        dispatch(setFilters(appliedFilters));
+    }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian, dispatch]);
 
     useEffect(() => {
         setParams({saveFilters: saveFilters});
@@ -123,4 +125,4 @@ FiltersScreen.navigationOptions = ({navigation: {toggleDrawer, getParam}}) => {
     }
 };
 
-export default FiltersScreen;
+export default connect()(FiltersScreen);

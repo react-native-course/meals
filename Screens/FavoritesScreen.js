@@ -23,7 +23,7 @@ const FavoritesScreen = ({navigation: {navigate}, favoriteMeals}) => {
     if (favoriteMeals.length === 0) {
         return (
             <View style={styles.content}>
-                <DefaultText>No Favorite meals Found. Start adding some!</DefaultText>
+                <DefaultText>No favorite meals Found. Start adding some!</DefaultText>
             </View>
         );
     }

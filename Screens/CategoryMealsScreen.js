@@ -6,11 +6,28 @@ import {getFilteredMeals} from "../store/selectors/mealsSelectors";
 import MealList from "../Components/MealList";
 //dummy
 import {CATEGORIES} from "../data/dummy-data";
+import DefaultText from "../Components/DefaultText";
+import {StyleSheet, View} from "react-native";
+
+const styles = StyleSheet.create({
+    content: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
+});
 
 const CategoryMealsScreen = ({navigation: {navigate, getParam}, filteredMeals}) => {
     const catId = getParam('categoryId'),
         displayMeals = filteredMeals.filter(meal => meal.categoryIds.indexOf(catId) >= 0);
 
+    if(displayMeals.length === 0) {
+        return (
+            <View style={styles.content}>
+                <DefaultText>No meals found, maybe check your filters?</DefaultText>
+            </View>
+        );
+    }
     return (
         <MealList listData={displayMeals} navigate={navigate} />
     );
