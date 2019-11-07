@@ -5,7 +5,7 @@ import {StyleSheet, Text, View, ScrollView, Image} from "react-native";
 //react navigation
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 //selectors
-import {getMeals} from "../store/selectors/mealsSelectors";
+import {getFavoriteMeals, getMeals} from "../store/selectors/mealsSelectors";
 //components
 import HeaderButton from '../Components/HeaderButton';
 import DefaultText from "../Components/DefaultText";
@@ -41,9 +41,10 @@ const ListItem = ({children}) => (
     </View>
 );
 
-const MealDetailScreen = ({navigation: {getParam, setParams}, meals, dispatch}) => {
+const MealDetailScreen = ({navigation: {getParam, setParams}, meals, favoriteMeals, dispatch}) => {
     const mealId = getParam('mealId'),
-        selectedMeal = meals.find(meal => meal.id === mealId);
+        selectedMeal = meals.find(meal => meal.id === mealId),
+        currentMealIsFavorite = favoriteMeals.some(meal => meal.id === mealId);
 
     const toggleFavoriteHandler = useCallback(() => {
         dispatch(toggleFavorite(mealId));
@@ -52,6 +53,10 @@ const MealDetailScreen = ({navigation: {getParam, setParams}, meals, dispatch}) 
     useEffect(() => {
         setParams({toggleFav: toggleFavoriteHandler})
     }, [toggleFavoriteHandler]);
+
+    useEffect(() => {
+        setParams({isFavorite: currentMealIsFavorite})
+    }, [currentMealIsFavorite]);
 
     return (
         <ScrollView>
@@ -74,7 +79,8 @@ const MealDetailScreen = ({navigation: {getParam, setParams}, meals, dispatch}) 
 };
 
 MealDetailScreen.navigationOptions = ({navigation: {getParam}}) => {
-    const title = getParam('mealTitle');
+    const title = getParam('mealTitle'),
+        isFavorite = getParam('isFavorite');
     return {
         headerTitle: title,
         headerRight: (
@@ -82,7 +88,7 @@ MealDetailScreen.navigationOptions = ({navigation: {getParam}}) => {
                 <Item
                     title="Favorite"
                     label="Favorite"
-                    iconName="ios-star"
+                    iconName={isFavorite ? "ios-star" : "ios-star-outline"}
                     onPress={getParam('toggleFav')}
                 />
             </HeaderButtons>
@@ -92,6 +98,7 @@ MealDetailScreen.navigationOptions = ({navigation: {getParam}}) => {
 
 const mapStateToProps = (state) => ({
     meals: getMeals({state}),
+    favoriteMeals: getFavoriteMeals({state}),
 });
 
 export default connect(mapStateToProps)(MealDetailScreen);
